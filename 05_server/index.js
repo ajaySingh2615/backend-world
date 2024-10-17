@@ -1,22 +1,15 @@
-const http = require("http");
-const fs = require("fs");
+const express = require("express");
 
-const myServer = http.createServer((req, res) => {
-  const log = `${Date.now()}: ${req.url} New Request Recieved`;
-  fs.appendFile("log.txt", log, (err, data) => {
-    switch (req.url) {
-      case "/":
-        res.end("HomePage");
-        break;
-      case "/about":
-        res.end("I am Ajay Singh");
-        break;
-      default:
-        res.end("404");
-    }
-  });
+const app = express();
+
+app.get("/", (req, res) => {
+  return res.send("Hello from home page");
 });
 
-myServer.listen(8000, () => {
-  console.log("Server is listining on port 8000");
+app.get("/about", (req, res) => {
+  return res.send("This is a about page");
+});
+
+app.listen(8000, () => {
+  console.log("Server started!");
 });
