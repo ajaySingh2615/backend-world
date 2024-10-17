@@ -1,4 +1,7 @@
 const fs = require("fs");
+const os = require("os");
+
+console.log(os.cpus().length);
 
 // this is a sync call
 // fs.writeFileSync("./test.txt", "Hey! There");
@@ -16,4 +19,4 @@ const fs = require("fs");
 // });
 // console.log(result);
 
-fs.appendFileSync("./test.txt", new Date().getDate().toLocaleString());
+// fs.appendFileSync("./test.txt", new Date().getDate().toLocaleString());
