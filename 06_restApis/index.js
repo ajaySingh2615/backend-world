@@ -7,9 +7,20 @@ const PORT = 8080;
 
 app.use(express.urlencoded({ extended: false }));
 
+app.use((req, res, next) => {
+  fs.appendFile(
+    "log.txt",
+    `${Date.now()}: ${req.method}: ${req.path}\n`,
+    (err, data) => {
+      next();
+    }
+  );
+});
+
 // Routes
 
 app.get("/api/users", (req, res) => {
+  res.setHeader("myName", "Ajay Singh");
   return res.json(users);
 });
 
