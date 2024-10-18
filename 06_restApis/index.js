@@ -1,29 +1,25 @@
-const fs = require("fs");
+const express = require("express");
 
+const { connectMongoDb } = require("./connection");
 const userRouter = require("./routes/user");
+const { logReqRes } = require("./middlewares");
 
 const app = express();
 const PORT = 8080;
 
-mongoose
-  .connect("mongodb://127.0.0.1:27017/demo")
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log("Mongo Error", err));
+// connection
+connectMongoDb("mongodb://127.0.0.1:27017/demo").then(() =>
+  console.log("Mongodb connected")
+);
 
+// middlewares
 app.use(express.urlencoded({ extended: false }));
+app.use(logReqRes("log.txt"));
 
-app.use((req, res, next) => {
-  fs.appendFile(
-    "log.txt",
-    `${Date.now()}: ${req.method}: ${req.path}\n`,
-    (err, data) => {
-      next();
-    }
-  );
-});
-
+// routes
 app.use("/user", userRouter);
 
+// port is listening
 app.listen(PORT, () => {
   console.log(`Server is started on port ${PORT}`);
 });
